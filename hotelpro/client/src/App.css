@@ -1,0 +1,244 @@
+:root {
+  --primary-navy: #0d1b2a;
+  --primary-dark: #1b263b;
+  --accent-gold: #c5a059;
+  --accent-gold-hover: #b38e47;
+  --cream-bg: #f8f9fa;
+  --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--cream-bg);
+  color: #2b2d42;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .serif-heading {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+}
+
+/* Navbar */
+.luxury-navbar {
+  background-color: var(--primary-navy);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.luxury-brand {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  letter-spacing: 1px;
+}
+
+.luxury-brand span {
+  color: var(--accent-gold);
+}
+
+/* Buttons */
+.btn-gold {
+  background-color: var(--accent-gold);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover, .btn-gold:focus {
+  background-color: var(--accent-gold-hover);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(197, 160, 89, 0.35);
+}
+
+.btn-outline-gold {
+  border: 1.5px solid var(--accent-gold);
+  color: var(--accent-gold);
+  background: transparent;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-gold:hover {
+  background-color: var(--accent-gold);
+  color: #ffffff;
+}
+
+/* Hero Section */
+.hero-banner {
+  background: linear-gradient(180deg, rgba(13, 27, 42, 0.75) 0%, rgba(13, 27, 42, 0.9) 100%),
+              url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  color: #ffffff;
+  padding: 5rem 0 7rem;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 650px;
+}
+
+/* Search Bar Card */
+.search-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  margin-top: -3.5rem;
+  position: relative;
+  z-index: 10;
+  padding: 1.75rem;
+}
+
+/* Room Cards */
+.room-card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: all 0.35s ease;
+  background: #ffffff;
+}
+
+.room-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.14);
+}
+
+.room-card-img {
+  height: 240px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.room-card:hover .room-card-img {
+  transform: scale(1.04);
+}
+
+.room-price-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(13, 27, 42, 0.85);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.amenity-chip {
+  background: #f1f4f8;
+  color: #415a77;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+/* Badges */
+.badge-available {
+  background-color: #2ec4b6;
+  color: #fff;
+}
+.badge-occupied {
+  background-color: #e63946;
+  color: #fff;
+}
+.badge-cleaning {
+  background-color: #f4a261;
+  color: #fff;
+}
+
+/* Stat Cards */
+.stat-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid var(--accent-gold);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+}
+
+/* Modals */
+.modal-luxury-header {
+  background: var(--primary-navy);
+  color: #ffffff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Voucher / Receipt Card */
+.voucher-card {
+  background: #ffffff;
+  border: 2px dashed #c5a059;
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+}
+
+.voucher-card::before, .voucher-card::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: #f8f9fa;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.voucher-card::before { left: -14px; }
+.voucher-card::after { right: -14px; }
+
+/* Footer */
+.luxury-footer {
+  background: var(--primary-navy);
+  color: #a0aec0;
+  padding: 3.5rem 0 1.5rem;
+  margin-top: 5rem;
+}
+
+.luxury-footer h5 {
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.luxury-footer a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.luxury-footer a:hover {
+  color: var(--accent-gold);
+}

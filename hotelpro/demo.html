@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HotelPro | Luxury Hotel Management & Booking Solution</title>
+  
+  <!-- Fonts & Bootstrap 5 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- React 18 & Babel for standalone JSX execution -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --primary-navy: #0d1b2a;
+      --primary-dark: #1b263b;
+      --accent-gold: #c5a059;
+      --accent-gold-hover: #b38e47;
+      --cream-bg: #f8f9fa;
+      --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--cream-bg);
+      color: #2b2d42;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif-heading {
+      font-family: var(--font-serif);
+      letter-spacing: -0.02em;
+    }
+
+    .luxury-navbar {
+      background-color: var(--primary-navy);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .luxury-brand {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #ffffff !important;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .luxury-brand span {
+      color: var(--accent-gold);
+    }
+
+    .btn-gold {
+      background-color: var(--accent-gold);
+      color: #ffffff;
+      border: none;
+      font-weight: 600;
+      padding: 0.6rem 1.4rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-gold:hover, .btn-gold:focus {
+      background-color: var(--accent-gold-hover);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(197, 160, 89, 0.35);
+    }
+
+    .btn-outline-gold {
+      border: 1.5px solid var(--accent-gold);
+      color: var(--accent-gold);
+      background: transparent;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-gold:hover {
+      background-color: var(--accent-gold);
+      color: #ffffff;
+    }
+
+    .hero-banner {
+      background: linear-gradient(180deg, rgba(13, 27, 42, 0.78) 0%, rgba(13, 27, 42, 0.92) 100%),
+                  url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      color: #ffffff;
+      padding: 5rem 0 6.5rem;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 650px;
+    }
+
+    .search-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      margin-top: -3.5rem;
+      position: relative;
+      z-index: 10;
+      padding: 1.75rem;
+    }
+
+    .room-card {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: all 0.35s ease;
+      background: #ffffff;
+    }
+
+    .room-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.14);
+    }
+
+    .room-card-img {
+      height: 240px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .room-card:hover .room-card-img {
+      transform: scale(1.04);
+    }
+
+    .room-price-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(13, 27, 42, 0.85);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .amenity-chip {
+      background: #f1f4f8;
+      color: #415a77;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .badge-available { background-color: #2ec4b6; color: #fff; }
+    .badge-occupied { background-color: #e63946; color: #fff; }
+    .badge-cleaning { background-color: #f4a261; color: #fff; }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid var(--accent-gold);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-navy);
+    }
+
+    .modal-luxury-header {
+      background: var(--primary-navy);
+      color: #ffffff;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    .voucher-card {
+      background: #ffffff;
+      border: 2px dashed #c5a059;
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .voucher-card::before, .voucher-card::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #f8f9fa;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .voucher-card::before { left: -14px; }
+    .voucher-card::after { right: -14px; }
+
+    .luxury-footer {
+      background: var(--primary-navy);
+      color: #a0aec0;
+      padding: 3.5rem 0 1.5rem;
+      margin-top: 5rem;
+    }
+
+    .luxury-footer h5 {
+      color: #ffffff;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    .luxury-footer a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .luxury-footer a:hover {
+      color: var(--accent-gold);
+    }
+
+    .eval-banner {
+      background: #111e2e;
+      color: #fff;
+      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const initialRoomsData = [
+      {
+        _id: 'rm_101',
+        roomNumber: '101',
+        title: 'Grand Deluxe Ocean Suite',
+        type: 'Deluxe',
+        pricePerNight: 280,
+        maxGuests: 2,
+        bedType: '1 King Bed',
+        sizeSqFt: 520,
+        amenities: ['Panoramic Ocean View', 'Private Balcony', 'High-Speed Wi-Fi', 'Espresso Machine', 'Marble Bathroom', '24/7 Room Service'],
+        description: 'Bask in breathtaking coastal views with our Grand Deluxe Ocean Suite. Features an Italian marble bathroom, plush king bed, and private terrace.',
+        images: ['https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80'],
+        status: 'Available',
+        rating: 4.9,
+      },
+      {
+        _id: 'rm_204',
+        roomNumber: '204',
+        title: 'Executive Skyline Suite',
+        type: 'Executive Suite',
+        pricePerNight: 420,
+        maxGuests: 3,
+        bedType: '1 King Bed + 1 Daybed',
+        sizeSqFt: 780,
+        amenities: ['High-Floor City Skyline View', 'Executive Lounge Access', 'Work Desk & Chair', 'Walk-in Closet', 'Complimentary Breakfast'],
+        description: 'Designed for discerning travelers and executives. Enjoy floor-to-ceiling glass windows overlooking the vibrant skyline and private lounge privileges.',
+        images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80'],
+        status: 'Available',
+        rating: 4.95,
+      },
+      {
+        _id: 'rm_305',
+        roomNumber: '305',
+        title: 'Presidential Royal Penthouse',
+        type: 'Presidential Villa',
+        pricePerNight: 850,
+        maxGuests: 4,
+        bedType: '2 California King Beds',
+        sizeSqFt: 1450,
+        amenities: ['Private Heated Jacuzzi', 'Dedicated Butler Service', 'Chef Kitchenette', 'Limousine Airport Transfer', 'Sonos Surround Audio'],
+        description: 'The pinnacle of luxury hospitality. Spanning 1,450 sq ft with dual master suites, private rooftop terrace with jacuzzi, and 24-hour dedicated butler.',
+        images: ['https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80'],
+        status: 'Available',
+        rating: 5.0,
+      },
+      {
+        _id: 'rm_108',
+        roomNumber: '108',
+        title: 'Superior Garden King',
+        type: 'Superior King',
+        pricePerNight: 195,
+        maxGuests: 2,
+        bedType: '1 King Bed',
+        sizeSqFt: 410,
+        amenities: ['Lush Garden Patio', 'Rain Shower', 'Organic Toiletries', 'Smart 55" 4K TV', 'Silent Mini Fridge'],
+        description: 'A serene sanctuary surrounded by tropical flora. Perfect for couples seeking peaceful rejuvenation with direct garden terrace access.',
+        images: ['https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=80'],
+        status: 'Available',
+        rating: 4.8,
+      },
+      {
+        _id: 'rm_412',
+        roomNumber: '412',
+        title: 'Luxury Family Penthouse',
+        type: 'Family Penthouse',
+        pricePerNight: 550,
+        maxGuests: 6,
+        bedType: '2 King Beds + 2 Twin Beds',
+        sizeSqFt: 1100,
+        amenities: ['2 Separate Bedrooms', 'Spacious Living & Dining Room', 'Kids Play Zone', 'Full Kitchen', 'Washer & Dryer'],
+        description: 'A lavish home away from home for families. Features two private master suites, expansive communal parlor, and customized family concierge.',
+        images: ['https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80'],
+        status: 'Cleaning',
+        rating: 4.88,
+      },
+      {
+        _id: 'rm_215',
+        roomNumber: '215',
+        title: 'Boutique Courtyard King',
+        type: 'Deluxe',
+        pricePerNight: 230,
+        maxGuests: 2,
+        bedType: '1 King Bed',
+        sizeSqFt: 460,
+        amenities: ['Courtyard Fountain View', 'Plush Bathrobes', 'Coffee Bar', 'Acoustic Soundproofing', 'Fast Wi-Fi'],
+        description: 'Warm artisan aesthetics combined with modern comforts. Overlooks our classical courtyard with gentle fountain acoustics.',
+        images: ['https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80'],
+        status: 'Available',
+        rating: 4.85,
+      },
+    ];
+
+    const initialBookingsData = [
+      {
+        _id: 'bkg_1001',
+        bookingReference: 'HP-948210',
+        guestName: 'Eleanor Vance',
+        guestEmail: 'eleanor.v@luxuryliving.com',
+        guestPhone: '+1 (555) 234-5678',
+        roomDetails: initialRoomsData[2],
+        checkInDate: '2026-11-02',
+        checkOutDate: '2026-11-05',
+        nights: 3,
+        guestsCount: 2,
+        totalAmount: 2805,
+        paymentStatus: 'Paid',
+        paymentMethod: 'Visa ending in 4242',
+        transactionId: 'TXN-98471924',
+        bookingStatus: 'Confirmed',
+        specialRequests: 'High floor, complimentary champagne on arrival.',
+      },
+      {
+        _id: 'bkg_1002',
+        bookingReference: 'HP-812394',
+        guestName: 'Marcus Sterling',
+        guestEmail: 'guest@hotelpro.com',
+        guestPhone: '+1 (555) 876-5432',
+        roomDetails: initialRoomsData[1],
+        checkInDate: '2026-10-28',
+        checkOutDate: '2026-10-30',
+        nights: 2,
+        guestsCount: 1,
+        totalAmount: 924,
+        paymentStatus: 'Paid',
+        paymentMethod: 'Mastercard ending in 8812',
+        transactionId: 'TXN-47291039',
+        bookingStatus: 'Checked-In',
+        specialRequests: 'Quiet room away from elevators, late check-out at 1 PM.',
+      },
+    ];
+
+    function App() {
+      const [role, setRole] = useState('guest'); // 'guest' or 'admin'
+      const [activeTab, setActiveTab] = useState('explore'); // 'explore', 'my-bookings', 'admin'
+      
+      // Rooms and Bookings with LocalStorage persistence
+      const [rooms, setRooms] = useState(() => {
+        try {
+          const saved = localStorage.getItem('hp_demo_rooms');
+          return saved ? JSON.parse(saved) : initialRoomsData;
+        } catch(e) { return initialRoomsData; }
+      });
+
+      const [bookings, setBookings] = useState(() => {
+        try {
+          const saved = localStorage.getItem('hp_demo_bookings');
+          return saved ? JSON.parse(saved) : initialBookingsData;
+        } catch(e) { return initialBookingsData; }
+      });
+
+      useEffect(() => {
+        localStorage.setItem('hp_demo_rooms', JSON.stringify(rooms));
+      }, [rooms]);
+
+      useEffect(() => {
+        localStorage.setItem('hp_demo_bookings', JSON.stringify(bookings));
+      }, [bookings]);
+
+      // Filters
+      const [checkIn, setCheckIn] = useState('2026-10-29');
+      const [checkOut, setCheckOut] = useState('2026-10-31');
+      const [roomType, setRoomType] = useState('All');
+      const [guests, setGuests] = useState(2);
+      const [maxPrice, setMaxPrice] = useState(900);
+      const [searchQuery, setSearchQuery] = useState('');
+
+      // Modals
+      const [selectedRoom, setSelectedRoom] = useState(null);
+      const [activeVoucher, setActiveVoucher] = useState(null);
+
+      // Admin Add Room form
+      const [showAddRoom, setShowAddRoom] = useState(false);
+      const [newRoomNumber, setNewRoomNumber] = useState('');
+      const [newRoomTitle, setNewRoomTitle] = useState('');
+      const [newRoomType, setNewRoomType] = useState('Deluxe');
+      const [newRoomPrice, setNewRoomPrice] = useState(250);
+      const [newRoomGuests, setNewRoomGuests] = useState(2);
+      const [newRoomDesc, setNewRoomDesc] = useState('');
+
+      // Room filtering
+      const filteredRooms = rooms.filter(r => {
+        if (roomType !== 'All' && r.type !== roomType) return false;
+        if (r.pricePerNight > maxPrice) return false;
+        if (r.maxGuests < guests) return false;
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const matchTitle = r.title.toLowerCase().includes(q);
+          const matchDesc = r.description.toLowerCase().includes(q);
+          const matchAmenity = (r.amenities || []).some(a => a.toLowerCase().includes(q));
+          if (!matchTitle && !matchDesc && !matchAmenity) return false;
+        }
+        return true;
+      });
+
+      // Booking creation
+      const handleCreateBooking = (bookingData) => {
+        const newBooking = {
+          _id: 'bkg_' + Date.now(),
+          bookingReference: 'HP-' + Math.floor(100000 + Math.random() * 900000),
+          ...bookingData,
+          paymentStatus: 'Paid',
+          transactionId: 'TXN-' + Math.floor(10000000 + Math.random() * 90000000),
+          bookingStatus: 'Confirmed',
+          createdAt: new Date().toISOString()
+        };
+
+        setBookings([newBooking, ...bookings]);
+        setSelectedRoom(null);
+        setActiveVoucher(newBooking);
+      };
+
+      // Status updates
+      const handleUpdateBookingStatus = (id, newStatus) => {
+        setBookings(bookings.map(b => b._id === id ? { ...b, bookingStatus: newStatus } : b));
+      };
+
+      const handleUpdateRoomStatus = (id, newStatus) => {
+        setRooms(rooms.map(r => r._id === id ? { ...r, status: newStatus } : r));
+      };
+
+      const handleAddRoomSubmit = (e) => {
+        e.preventDefault();
+        const created = {
+          _id: 'rm_' + Date.now(),
+          roomNumber: newRoomNumber,
+          title: newRoomTitle,
+          type: newRoomType,
+          pricePerNight: Number(newRoomPrice),
+          maxGuests: Number(newRoomGuests),
+          bedType: '1 King Bed',
+          sizeSqFt: 500,
+          description: newRoomDesc || 'Newly refurbished luxury accommodation with full hotel amenities.',
+          amenities: ['High-Speed Wi-Fi', 'Smart TV', 'Climate Control', 'Room Service', 'Espresso Bar'],
+          images: ['https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80'],
+          status: 'Available',
+          rating: 4.9
+        };
+        setRooms([created, ...rooms]);
+        setShowAddRoom(false);
+        setNewRoomNumber('');
+        setNewRoomTitle('');
+      };
+
+      // KPI metrics
+      const totalRevenue = bookings.filter(b => b.bookingStatus !== 'Cancelled').reduce((sum, b) => sum + (b.totalAmount || 0), 0);
+      const occupiedRooms = rooms.filter(r => r.status === 'Occupied').length;
+      const occupancyRate = Math.round((occupiedRooms / rooms.length) * 100) || 50;
+
+      return (
+        <div>
+          {/* Top Mentor Review Banner */}
+          <div className="eval-banner d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+              <span className="badge bg-warning text-dark me-2">Mentor Review Mode</span>
+              <span>HotelPro: 6 Epics & 19 Tasks Implemented • React + Node/Express + MongoDB Architecture</span>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <span className="small text-white-50">Switch View:</span>
+              <button 
+                className={`btn btn-xs btn-sm ${role === 'guest' ? 'btn-warning text-dark fw-bold' : 'btn-outline-light'}`}
+                onClick={() => { setRole('guest'); setActiveTab('explore'); }}
+              >
+                Guest View
+              </button>
+              <button 
+                className={`btn btn-xs btn-sm ${role === 'admin' ? 'btn-warning text-dark fw-bold' : 'btn-outline-light'}`}
+                onClick={() => { setRole('admin'); setActiveTab('admin'); }}
+              >
+                Staff / Admin View
+              </button>
+            </div>
+          </div>
+
+          {/* Navigation Bar */}
+          <nav className="navbar navbar-expand-lg navbar-dark luxury-navbar sticky-top py-3">
+            <div className="container">
+              <a className="navbar-brand luxury-brand d-flex align-items-center" href="#top" onClick={() => setActiveTab('explore')}>
+                <i className="bi bi-buildings-fill me-2 text-warning"></i>
+                HOTEL<span>PRO</span>
+              </a>
+
+              <div className="d-flex align-items-center gap-3">
+                <button 
+                  className={`btn btn-link text-decoration-none ${activeTab === 'explore' ? 'text-warning fw-bold' : 'text-white'}`}
+                  onClick={() => setActiveTab('explore')}
+                >
+                  <i className="bi bi-compass me-1"></i> Explore Suites
+                </button>
+                <button 
+                  className={`btn btn-link text-decoration-none ${activeTab === 'my-bookings' ? 'text-warning fw-bold' : 'text-white'}`}
+                  onClick={() => setActiveTab('my-bookings')}
+                >
+                  <i className="bi bi-calendar-check me-1"></i> My Bookings ({bookings.length})
+                </button>
+                {role === 'admin' && (
+                  <button 
+                    className={`btn btn-link text-decoration-none ${activeTab === 'admin' ? 'text-warning fw-bold' : 'text-white'}`}
+                    onClick={() => setActiveTab('admin')}
+                  >
+                    <i className="bi bi-speedometer2 me-1"></i> Staff Console
+                  </button>
+                )}
+              </div>
+            </div>
+          </nav>
+
+          {/* TAB 1: EXPLORE SUITES */}
+          {activeTab === 'explore' && (
+            <div>
+              <div className="hero-banner text-center">
+                <div className="container">
+                  <span className="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3">
+                    ★ Modern Five-Star Hospitality
+                  </span>
+                  <h1 className="hero-title mb-3">Seamless Comfort & Luxury</h1>
+                  <p className="hero-subtitle mx-auto mb-4">
+                    Streamlined reservations, real-time availability tracking, luxury accommodations, and secure operations with HotelPro.
+                  </p>
+                  <div className="d-flex justify-content-center gap-3">
+                    <button className="btn btn-gold btn-lg" onClick={() => {
+                      document.getElementById('suites-catalog').scrollIntoView({ behavior: 'smooth' });
+                    }}>
+                      <i className="bi bi-search me-2"></i> Browse Suites
+                    </button>
+                    <button className="btn btn-outline-light btn-lg" onClick={() => setActiveTab('my-bookings')}>
+                      <i className="bi bi-ticket-perforated me-2"></i> View Stays
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Search & Filter Bar */}
+              <div className="container">
+                <div className="search-card">
+                  <div className="row g-3 align-items-end">
+                    <div className="col-lg-3 col-md-6">
+                      <label className="form-label small fw-bold text-muted mb-1">
+                        <i className="bi bi-calendar-event me-1 text-primary"></i> Check-in Date
+                      </label>
+                      <input 
+                        type="date" 
+                        className="form-control" 
+                        value={checkIn} 
+                        onChange={(e) => setCheckIn(e.target.value)} 
+                      />
+                    </div>
+
+                    <div className="col-lg-3 col-md-6">
+                      <label className="form-label small fw-bold text-muted mb-1">
+                        <i className="bi bi-calendar-check me-1 text-primary"></i> Check-out Date
+                      </label>
+                      <input 
+                        type="date" 
+                        className="form-control" 
+                        value={checkOut} 
+                        onChange={(e) => setCheckOut(e.target.value)} 
+                      />
+                    </div>
+
+                    <div className="col-lg-2 col-md-4">
+                      <label className="form-label small fw-bold text-muted mb-1">
+                        <i className="bi bi-door-open me-1 text-primary"></i> Suite Category
+                      </label>
+                      <select 
+                        className="form-select" 
+                        value={roomType} 
+                        onChange={(e) => setRoomType(e.target.value)}
+                      >
+                        <option value="All">All Categories</option>
+                        <option value="Deluxe">Deluxe Suites</option>
+                        <option value="Executive Suite">Executive Suites</option>
+                        <option value="Presidential Villa">Presidential Villa</option>
+                        <option value="Superior King">Superior King</option>
+                        <option value="Family Penthouse">Family Penthouse</option>
+                      </select>
+                    </div>
+
+                    <div className="col-lg-2 col-md-4">
+                      <label className="form-label small fw-bold text-muted mb-1">
+                        <i className="bi bi-people me-1 text-primary"></i> Guests
+                      </label>
+                      <select 
+                        className="form-select" 
+                        value={guests} 
+                        onChange={(e) => setGuests(Number(e.target.value))}
+                      >
+                        <option value={1}>1 Guest</option>
+                        <option value={2}>2 Guests</option>
+                        <option value={3}>3 Guests</option>
+                        <option value={4}>4+ Guests</option>
+                      </select>
+                    </div>
+
+                    <div className="col-lg-2 col-md-4">
+                      <label className="form-label small fw-bold text-muted mb-1">
+                        <i className="bi bi-cash-stack me-1 text-primary"></i> Max ${maxPrice}/nt
+                      </label>
+                      <input 
+                        type="range" 
+                        className="form-range" 
+                        min="150" 
+                        max="1000" 
+                        step="50" 
+                        value={maxPrice} 
+                        onChange={(e) => setMaxPrice(Number(e.target.value))} 
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-3 pt-3 border-top d-flex gap-2">
+                    <div className="input-group">
+                      <span className="input-group-text bg-light border-end-0">
+                        <i className="bi bi-search text-muted"></i>
+                      </span>
+                      <input 
+                        type="text" 
+                        className="form-control border-start-0" 
+                        placeholder="Search by keywords, amenities, views (e.g. Ocean, Jacuzzi, Balcony)..." 
+                        value={searchQuery} 
+                        onChange={(e) => setSearchQuery(e.target.value)} 
+                      />
+                    </div>
+                    {searchQuery && (
+                      <button className="btn btn-outline-secondary" onClick={() => setSearchQuery('')}>
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Suites Catalog */}
+              <section id="suites-catalog" className="container py-5 mt-2">
+                <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                  <div>
+                    <span className="text-muted small text-uppercase fw-bold letter-spacing">Signature Collection</span>
+                    <h2 className="serif-heading mb-0">Accommodations & Residences</h2>
+                  </div>
+                  <span className="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">
+                    Showing {filteredRooms.length} of {rooms.length} Suites
+                  </span>
+                </div>
+
+                <div className="row">
+                  {filteredRooms.map(room => (
+                    <div key={room._id} className="col-lg-4 col-md-6 mb-4">
+                      <div className="card room-card h-100 position-relative">
+                        <div className="position-relative overflow-hidden">
+                          <img 
+                            src={room.images[0]} 
+                            alt={room.title} 
+                            className="w-100 room-card-img" 
+                          />
+                          <div className="room-price-badge">
+                            ${room.pricePerNight} <span className="small fw-normal text-white-50">/ night</span>
+                          </div>
+                          <span className={`position-absolute top-0 start-0 m-3 badge ${
+                            room.status === 'Available' ? 'badge-available' : room.status === 'Occupied' ? 'badge-occupied' : 'badge-cleaning'
+                          }`}>
+                            {room.status}
+                          </span>
+                        </div>
+
+                        <div className="card-body d-flex flex-column">
+                          <div className="d-flex justify-content-between align-items-center mb-1">
+                            <span className="text-muted small text-uppercase fw-bold letter-spacing">
+                              Suite #{room.roomNumber} • {room.type}
+                            </span>
+                            <span className="text-warning small fw-bold">
+                              ★ {room.rating}
+                            </span>
+                          </div>
+
+                          <h5 className="card-title fw-bold text-dark mb-2">{room.title}</h5>
+
+                          <p className="card-text text-muted small flex-grow-1">
+                            {room.description}
+                          </p>
+
+                          <div className="d-flex gap-3 text-muted small mb-3 border-top border-bottom py-2">
+                            <span><i className="bi bi-people me-1 text-primary"></i> Max {room.maxGuests}</span>
+                            <span><i className="bi bi-aspect-ratio me-1 text-primary"></i> {room.sizeSqFt} sq ft</span>
+                            <span><i className="bi bi-moon me-1 text-primary"></i> {room.bedType}</span>
+                          </div>
+
+                          <div className="mb-3">
+                            {(room.amenities || []).slice(0, 3).map((amenity, idx) => (
+                              <span key={idx} className="amenity-chip">
+                                <i className="bi bi-check-circle-fill text-success me-1"></i>{amenity}
+                              </span>
+                            ))}
+                          </div>
+
+                          <button 
+                            className={`btn w-100 ${room.status === 'Available' ? 'btn-gold' : 'btn-secondary disabled'}`}
+                            onClick={() => setSelectedRoom(room)}
+                            disabled={room.status !== 'Available'}
+                          >
+                            {room.status === 'Available' ? (
+                              <span><i className="bi bi-calendar-plus me-2"></i> Reserve Suite</span>
+                            ) : (
+                              'Currently Unavailable'
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Amenities Section */}
+              <section className="container py-5 border-top">
+                <div className="text-center mb-5">
+                  <span className="text-muted small text-uppercase fw-bold">Uncompromising Quality</span>
+                  <h2 className="serif-heading">World-Class Hotel Amenities</h2>
+                </div>
+                <div className="row g-4 text-center">
+                  <div className="col-md-3 col-6">
+                    <div className="p-4 bg-white rounded shadow-sm h-100">
+                      <i className="bi bi-water text-primary display-5 mb-3"></i>
+                      <h6>Heated Infinity Pool</h6>
+                      <p className="text-muted small">Rooftop panoramic pool with private VIP cabanas.</p>
+                    </div>
+                  </div>
+                  <div className="col-md-3 col-6">
+                    <div className="p-4 bg-white rounded shadow-sm h-100">
+                      <i className="bi bi-cup-hot-fill text-warning display-5 mb-3"></i>
+                      <h6>Michelin-Star Gastronomy</h6>
+                      <p className="text-muted small">Artisan dining curated by international culinary masters.</p>
+                    </div>
+                  </div>
+                  <div className="col-md-3 col-6">
+                    <div className="p-4 bg-white rounded shadow-sm h-100">
+                      <i className="bi bi-flower1 text-success display-5 mb-3"></i>
+                      <h6>Holistic Wellness & Spa</h6>
+                      <p className="text-muted small">Bespoke therapeutic massages and relaxation rituals.</p>
+                    </div>
+                  </div>
+                  <div className="col-md-3 col-6">
+                    <div className="p-4 bg-white rounded shadow-sm h-100">
+                      <i className="bi bi-shield-check text-info display-5 mb-3"></i>
+                      <h6>24/7 Concierge & Security</h6>
+                      <p className="text-muted small">Seamless service and attentive security round the clock.</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          )}
+
+          {/* TAB 2: MY BOOKINGS */}
+          {activeTab === 'my-bookings' && (
+            <div className="container py-5">
+              <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <div>
+                  <h2 className="serif-heading mb-1">Guest Stays & Reservations</h2>
+                  <p className="text-muted small mb-0">Active reservations and booking history</p>
+                </div>
+                <button className="btn btn-outline-primary" onClick={() => setActiveTab('explore')}>
+                  <i className="bi bi-plus-circle me-2"></i> Book Another Room
+                </button>
+              </div>
+
+              {bookings.length === 0 ? (
+                <div className="card text-center p-5 shadow-sm border-0">
+                  <i className="bi bi-calendar-x text-muted display-4 mb-3"></i>
+                  <h4>No Active Bookings</h4>
+                  <p className="text-muted">You have not booked any suites yet.</p>
+                  <div>
+                    <button className="btn btn-gold" onClick={() => setActiveTab('explore')}>
+                      Explore Available Suites
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="row g-4">
+                  {bookings.map(b => (
+                    <div key={b._id} className="col-lg-6">
+                      <div className="card border-0 shadow-sm rounded-3 p-4 h-100">
+                        <div className="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <span className="badge bg-light text-dark font-monospace border mb-1">
+                              {b.bookingReference}
+                            </span>
+                            <h5 className="fw-bold mb-0 text-dark">
+                              {b.roomDetails ? b.roomDetails.title : 'Luxury Suite'}
+                            </h5>
+                          </div>
+                          <span className={`badge ${
+                            b.bookingStatus === 'Confirmed' ? 'bg-primary' : b.bookingStatus === 'Checked-In' ? 'bg-success' : b.bookingStatus === 'Checked-Out' ? 'bg-secondary' : 'bg-danger'
+                          } text-uppercase px-3 py-2`}>
+                            {b.bookingStatus}
+                          </span>
+                        </div>
+
+                        <div className="row g-2 text-muted small my-3 bg-light p-3 rounded">
+                          <div className="col-sm-6">
+                            <i className="bi bi-calendar3 me-1 text-primary"></i>
+                            <strong>Dates:</strong> {b.checkInDate} to {b.checkOutDate} ({b.nights}n)
+                          </div>
+                          <div className="col-sm-6">
+                            <i className="bi bi-cash me-1 text-primary"></i>
+                            <strong>Total Paid:</strong> ${b.totalAmount}
+                          </div>
+                          <div className="col-sm-6">
+                            <i className="bi bi-person me-1 text-primary"></i>
+                            <strong>Guest:</strong> {b.guestName}
+                          </div>
+                          <div className="col-sm-6">
+                            <i className="bi bi-chat-text me-1 text-primary"></i>
+                            <strong>Requests:</strong> {b.specialRequests || 'None'}
+                          </div>
+                        </div>
+
+                        <div className="d-flex gap-2 mt-auto pt-2">
+                          <button className="btn btn-sm btn-outline-primary" onClick={() => setActiveVoucher(b)}>
+                            <i className="bi bi-receipt me-1"></i> View Receipt
+                          </button>
+
+                          {b.bookingStatus === 'Confirmed' && (
+                            <>
+                              <button 
+                                className="btn btn-sm btn-success" 
+                                onClick={() => handleUpdateBookingStatus(b._id, 'Checked-In')}
+                              >
+                                <i className="bi bi-door-open me-1"></i> Online Check-In
+                              </button>
+                              <button 
+                                className="btn btn-sm btn-outline-danger" 
+                                onClick={() => handleUpdateBookingStatus(b._id, 'Cancelled')}
+                              >
+                                Cancel Reservation
+                              </button>
+                            </>
+                          )}
+
+                          {b.bookingStatus === 'Checked-In' && (
+                            <button 
+                              className="btn btn-sm btn-warning text-dark fw-bold" 
+                              onClick={() => handleUpdateBookingStatus(b._id, 'Checked-Out')}
+                            >
+                              <i className="bi bi-box-arrow-right me-1"></i> Express Check-Out
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 3: ADMIN CONSOLE */}
+          {activeTab === 'admin' && (
+            <div className="container py-5">
+              <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <div>
+                  <span className="badge bg-danger text-uppercase fw-bold px-3 py-1 mb-1">
+                    Staff & General Manager Access
+                  </span>
+                  <h2 className="serif-heading mb-0">HotelPro Operations Dashboard</h2>
+                  <small className="text-muted">Live inventory control, revenue tracking, and front desk operations</small>
+                </div>
+
+                <button className="btn btn-gold" onClick={() => setShowAddRoom(!showAddRoom)}>
+                  <i className="bi bi-plus-circle me-2"></i>
+                  {showAddRoom ? 'Close Form' : 'Register New Suite'}
+                </button>
+              </div>
+
+              {/* KPI Stat Cards */}
+              <div className="row g-4 mb-5">
+                <div className="col-lg-3 col-sm-6">
+                  <div className="stat-card">
+                    <div className="text-muted small text-uppercase fw-bold">Live Occupancy</div>
+                    <div className="stat-value">{occupancyRate}%</div>
+                    <small className="text-success"><i className="bi bi-graph-up-arrow me-1"></i> +8% this week</small>
+                  </div>
+                </div>
+
+                <div className="col-lg-3 col-sm-6">
+                  <div className="stat-card" style={{ borderLeftColor: '#2ec4b6' }}>
+                    <div className="text-muted small text-uppercase fw-bold">Gross Revenue</div>
+                    <div className="stat-value text-success">${totalRevenue.toLocaleString()}</div>
+                    <small className="text-muted">Paid reservations ledger</small>
+                  </div>
+                </div>
+
+                <div className="col-lg-3 col-sm-6">
+                  <div className="stat-card" style={{ borderLeftColor: '#3a86ff' }}>
+                    <div className="text-muted small text-uppercase fw-bold">Total Suites</div>
+                    <div className="stat-value text-primary">{rooms.length}</div>
+                    <small className="text-muted">{rooms.filter(r => r.status === 'Available').length} Ready for guests</small>
+                  </div>
+                </div>
+
+                <div className="col-lg-3 col-sm-6">
+                  <div className="stat-card" style={{ borderLeftColor: '#ff006e' }}>
+                    <div className="text-muted small text-uppercase fw-bold">Total Stays</div>
+                    <div className="stat-value text-dark">{bookings.length}</div>
+                    <small className="text-muted">{bookings.filter(b => b.bookingStatus === 'Confirmed').length} Upcoming check-ins</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Add Room Modal/Inline Card */}
+              {showAddRoom && (
+                <div className="card shadow-sm border-0 mb-5 p-4 bg-white rounded-3">
+                  <h5 className="fw-bold mb-3">Add New Suite to Hotel Inventory</h5>
+                  <form onSubmit={handleAddRoomSubmit}>
+                    <div className="row g-3">
+                      <div className="col-md-2">
+                        <label className="form-label small fw-bold">Room #</label>
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          required 
+                          placeholder="502" 
+                          value={newRoomNumber} 
+                          onChange={(e) => setNewRoomNumber(e.target.value)} 
+                        />
+                      </div>
+                      <div className="col-md-4">
+                        <label className="form-label small fw-bold">Suite Title</label>
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          required 
+                          placeholder="Royal Panoramic Penthouse" 
+                          value={newRoomTitle} 
+                          onChange={(e) => setNewRoomTitle(e.target.value)} 
+                        />
+                      </div>
+                      <div className="col-md-3">
+                        <label className="form-label small fw-bold">Category</label>
+                        <select 
+                          className="form-select" 
+                          value={newRoomType} 
+                          onChange={(e) => setNewRoomType(e.target.value)}
+                        >
+                          <option value="Deluxe">Deluxe</option>
+                          <option value="Executive Suite">Executive Suite</option>
+                          <option value="Presidential Villa">Presidential Villa</option>
+                          <option value="Superior King">Superior King</option>
+                          <option value="Family Penthouse">Family Penthouse</option>
+                        </select>
+                      </div>
+                      <div className="col-md-3">
+                        <label className="form-label small fw-bold">Price / Night ($)</label>
+                        <input 
+                          type="number" 
+                          className="form-control" 
+                          required 
+                          value={newRoomPrice} 
+                          onChange={(e) => setNewRoomPrice(e.target.value)} 
+                        />
+                      </div>
+                      <div className="col-md-12">
+                        <label className="form-label small fw-bold">Description</label>
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          placeholder="Brief description of amenities and view..." 
+                          value={newRoomDesc} 
+                          onChange={(e) => setNewRoomDesc(e.target.value)} 
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-3 text-end">
+                      <button type="submit" className="btn btn-gold">
+                        Save & Add to System
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* Room Inventory Table */}
+              <div className="card shadow-sm border-0 rounded-3 mb-5 overflow-hidden">
+                <div className="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3">
+                  <h5 className="mb-0 fw-bold">
+                    <i className="bi bi-door-closed me-2 text-warning"></i> Room Inventory Management
+                  </h5>
+                  <span className="badge bg-secondary">{rooms.length} Units</span>
+                </div>
+                <div className="table-responsive">
+                  <table className="table table-hover align-middle mb-0">
+                    <thead className="table-light">
+                      <tr>
+                        <th>Room #</th>
+                        <th>Title & Category</th>
+                        <th>Nightly Rate</th>
+                        <th>Max Guests</th>
+                        <th>Operational Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rooms.map(room => (
+                        <tr key={room._id}>
+                          <td className="fw-bold font-monospace text-primary">#{room.roomNumber}</td>
+                          <td>
+                            <div className="fw-semibold">{room.title}</div>
+                            <small className="text-muted">{room.type}</small>
+                          </td>
+                          <td className="fw-bold text-success">${room.pricePerNight}</td>
+                          <td>{room.maxGuests} Guests</td>
+                          <td>
+                            <span className={`badge ${
+                              room.status === 'Available' ? 'bg-success' : room.status === 'Occupied' ? 'bg-danger' : 'bg-warning text-dark'
+                            }`}>
+                              {room.status}
+                            </span>
+                          </td>
+                          <td>
+                            <select 
+                              className="form-select form-select-sm w-auto d-inline-block"
+                              value={room.status}
+                              onChange={(e) => handleUpdateRoomStatus(room._id, e.target.value)}
+                            >
+                              <option value="Available">Set Available</option>
+                              <option value="Occupied">Set Occupied</option>
+                              <option value="Cleaning">Set Cleaning</option>
+                              <option value="Maintenance">Set Maintenance</option>
+                            </select>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Front Desk Queue */}
+              <div className="card shadow-sm border-0 rounded-3 overflow-hidden">
+                <div className="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3">
+                  <h5 className="mb-0 fw-bold">
+                    <i className="bi bi-journal-check me-2 text-warning"></i> Front Desk Reservation Queue
+                  </h5>
+                  <span className="badge bg-secondary">{bookings.length} Records</span>
+                </div>
+                <div className="table-responsive">
+                  <table className="table table-hover align-middle mb-0">
+                    <thead className="table-light">
+                      <tr>
+                        <th>Reference</th>
+                        <th>Guest</th>
+                        <th>Dates</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookings.map(b => (
+                        <tr key={b._id}>
+                          <td className="font-monospace fw-bold">{b.bookingReference}</td>
+                          <td>
+                            <div className="fw-semibold">{b.guestName}</div>
+                            <small className="text-muted">{b.guestEmail}</small>
+                          </td>
+                          <td><small>{b.checkInDate} → {b.checkOutDate}</small></td>
+                          <td><span className="badge bg-success-subtle text-success border border-success">${b.totalAmount}</span></td>
+                          <td>
+                            <span className={`badge ${
+                              b.bookingStatus === 'Confirmed' ? 'bg-primary' : b.bookingStatus === 'Checked-In' ? 'bg-success' : b.bookingStatus === 'Checked-Out' ? 'bg-secondary' : 'bg-danger'
+                            }`}>
+                              {b.bookingStatus}
+                            </span>
+                          </td>
+                          <td>
+                            <div className="btn-group btn-group-sm">
+                              {b.bookingStatus === 'Confirmed' && (
+                                <button className="btn btn-sm btn-outline-success" onClick={() => handleUpdateBookingStatus(b._id, 'Checked-In')}>
+                                  Check In
+                                </button>
+                              )}
+                              {b.bookingStatus === 'Checked-In' && (
+                                <button className="btn btn-sm btn-outline-warning text-dark" onClick={() => handleUpdateBookingStatus(b._id, 'Checked-Out')}>
+                                  Check Out
+                                </button>
+                              )}
+                              {b.bookingStatus !== 'Cancelled' && (
+                                <button className="btn btn-sm btn-outline-danger" onClick={() => handleUpdateBookingStatus(b._id, 'Cancelled')}>
+                                  Cancel
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* BOOKING MODAL */}
+          {selectedRoom && (
+            <BookingFormModal 
+              room={selectedRoom} 
+              checkIn={checkIn} 
+              checkOut={checkOut} 
+              onClose={() => setSelectedRoom(null)} 
+              onSubmit={handleCreateBooking} 
+            />
+          )}
+
+          {/* VOUCHER MODAL */}
+          {activeVoucher && (
+            <VoucherModal 
+              booking={activeVoucher} 
+              onClose={() => setActiveVoucher(null)} 
+            />
+          )}
+
+          {/* Footer */}
+          <footer className="luxury-footer">
+            <div className="container">
+              <div className="row g-4">
+                <div className="col-lg-4">
+                  <h4 className="luxury-brand mb-3">HOTEL<span>PRO</span></h4>
+                  <p className="text-white-50 small mb-3">
+                    The premier hotel management suite providing next-generation booking operations, real-time availability tracking, guest services, and revenue automation.
+                  </p>
+                  <div className="text-muted small">
+                    © {new Date().getFullYear()} HotelPro Hospitality Solutions. All rights reserved.
+                  </div>
+                </div>
+                <div className="col-lg-2 col-6">
+                  <h5>Accommodations</h5>
+                  <ul className="list-unstyled small d-flex flex-column gap-2">
+                    <li><a href="#suites">Deluxe Suites</a></li>
+                    <li><a href="#suites">Executive Skyline</a></li>
+                    <li><a href="#suites">Presidential Villas</a></li>
+                    <li><a href="#suites">Family Residences</a></li>
+                  </ul>
+                </div>
+                <div className="col-lg-2 col-6">
+                  <h5>Hospitality</h5>
+                  <ul className="list-unstyled small d-flex flex-column gap-2">
+                    <li><a href="#suites">Online Reservations</a></li>
+                    <li><a href="#suites">Front-Desk Management</a></li>
+                    <li><a href="#suites">Concierge & Dining</a></li>
+                    <li><a href="#suites">Revenue Analytics</a></li>
+                  </ul>
+                </div>
+                <div className="col-lg-4">
+                  <h5>Concierge Contact</h5>
+                  <p className="small text-white-50 mb-2">
+                    <i className="bi bi-geo-alt-fill text-warning me-2"></i> 742 Evergreen Avenue, Luxury District, NY 10001
+                  </p>
+                  <p className="small text-white-50 mb-2">
+                    <i className="bi bi-telephone-fill text-warning me-2"></i> +1 (800) 555-HOTEL (46835)
+                  </p>
+                  <p className="small text-white-50 mb-3">
+                    <i className="bi bi-envelope-fill text-warning me-2"></i> concierge@hotelpro.com
+                  </p>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    // Modal Components
+    function BookingFormModal({ room, checkIn, checkOut, onClose, onSubmit }) {
+      const [guestName, setGuestName] = useState('Sophia Sterling');
+      const [guestEmail, setGuestEmail] = useState('guest@hotelpro.com');
+      const [guestPhone, setGuestPhone] = useState('+1 (555) 789-0123');
+      const [inDate, setInDate] = useState(checkIn);
+      const [outDate, setOutDate] = useState(checkOut);
+      const [specialReq, setSpecialReq] = useState('');
+      const [loading, setLoading] = useState(false);
+
+      const nights = Math.max(1, Math.ceil((new Date(outDate) - new Date(inDate)) / (1000 * 60 * 60 * 24)));
+      const subtotal = room.pricePerNight * nights;
+      const tax = Math.round(subtotal * 0.1);
+      const total = subtotal + tax;
+
+      const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setTimeout(() => {
+          onSubmit({
+            roomDetails: room,
+            guestName,
+            guestEmail,
+            guestPhone,
+            checkInDate: inDate,
+            checkOutDate: outDate,
+            nights,
+            guestsCount: room.maxGuests,
+            totalAmount: total,
+            specialRequests: specialReq || 'None',
+            paymentMethod: 'Visa ending in 4242'
+          });
+          setLoading(false);
+        }, 600);
+      };
+
+      return (
+        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.65)' }}>
+          <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content overflow-hidden">
+              <div className="modal-header modal-luxury-header p-4">
+                <div>
+                  <span className="badge bg-warning text-dark text-uppercase fw-bold mb-1">Suite Reservation</span>
+                  <h4 className="modal-title text-white serif-heading mb-0">{room.title}</h4>
+                  <small className="text-white-50">Room #{room.roomNumber} • ${room.pricePerNight} per night</small>
+                </div>
+                <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
+              </div>
+
+              <form onSubmit={handleFormSubmit}>
+                <div className="modal-body p-4">
+                  <div className="row g-4">
+                    <div className="col-md-7 border-end-md">
+                      <h6 className="fw-bold text-dark mb-3">
+                        <i className="bi bi-person-circle me-2 text-primary"></i> Guest Information
+                      </h6>
+
+                      <div className="mb-3">
+                        <label className="form-label small fw-semibold">Primary Guest Name</label>
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          required 
+                          value={guestName} 
+                          onChange={(e) => setGuestName(e.target.value)} 
+                        />
+                      </div>
+
+                      <div className="row g-2 mb-3">
+                        <div className="col-sm-6">
+                          <label className="form-label small fw-semibold">Email Address</label>
+                          <input 
+                            type="email" 
+                            className="form-control" 
+                            required 
+                            value={guestEmail} 
+                            onChange={(e) => setGuestEmail(e.target.value)} 
+                          />
+                        </div>
+                        <div className="col-sm-6">
+                          <label className="form-label small fw-semibold">Phone</label>
+                          <input 
+                            type="text" 
+                            className="form-control" 
+                            required 
+                            value={guestPhone} 
+                            onChange={(e) => setGuestPhone(e.target.value)} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="row g-2 mb-3">
+                        <div className="col-sm-6">
+                          <label className="form-label small fw-semibold">Check-in</label>
+                          <input 
+                            type="date" 
+                            className="form-control" 
+                            required 
+                            value={inDate} 
+                            onChange={(e) => setInDate(e.target.value)} 
+                          />
+                        </div>
+                        <div className="col-sm-6">
+                          <label className="form-label small fw-semibold">Check-out</label>
+                          <input 
+                            type="date" 
+                            className="form-control" 
+                            required 
+                            value={outDate} 
+                            onChange={(e) => setOutDate(e.target.value)} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="mb-3">
+                        <label className="form-label small fw-semibold">Special Requests (Optional)</label>
+                        <textarea 
+                          className="form-control" 
+                          rows="2" 
+                          placeholder="e.g. Quiet floor, extra pillows..." 
+                          value={specialReq} 
+                          onChange={(e) => setSpecialReq(e.target.value)}
+                        ></textarea>
+                      </div>
+
+                      <h6 className="fw-bold text-dark mb-2 mt-4">
+                        <i className="bi bi-credit-card-2-front me-2 text-primary"></i> Payment Details (Simulated)
+                      </h6>
+                      <div className="input-group mb-2">
+                        <span className="input-group-text bg-light"><i className="bi bi-credit-card"></i></span>
+                        <input type="text" className="form-control font-monospace" readOnly value="4242 •••• •••• 4242" />
+                        <span className="input-group-text text-success bg-light"><i className="bi bi-shield-check me-1"></i> 256-bit Encrypted</span>
+                      </div>
+                    </div>
+
+                    <div className="col-md-5">
+                      <div className="p-3 bg-light rounded-3 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                          <h6 className="fw-bold text-dark mb-3">Reservation Summary</h6>
+                          <img 
+                            src={room.images[0]} 
+                            alt={room.title} 
+                            className="w-100 rounded mb-3" 
+                            style={{ height: '120px', objectFit: 'cover' }} 
+                          />
+
+                          <div className="d-flex justify-content-between text-muted small mb-2">
+                            <span>Duration:</span>
+                            <span className="fw-bold text-dark">{nights} night(s)</span>
+                          </div>
+                          <div className="d-flex justify-content-between text-muted small mb-2">
+                            <span>Nightly Rate:</span>
+                            <span>${room.pricePerNight}</span>
+                          </div>
+                          <div className="d-flex justify-content-between text-muted small mb-2">
+                            <span>Room Subtotal:</span>
+                            <span>${subtotal}</span>
+                          </div>
+                          <div className="d-flex justify-content-between text-muted small mb-2">
+                            <span>Taxes & Fees (10%):</span>
+                            <span>${tax}</span>
+                          </div>
+                          <hr />
+                          <div className="d-flex justify-content-between align-items-center mb-2">
+                            <span className="fw-bold text-dark">Total:</span>
+                            <span className="h4 fw-bold text-primary mb-0">${total}</span>
+                          </div>
+                        </div>
+
+                        <div className="mt-3">
+                          <button 
+                            type="submit" 
+                            className="btn btn-gold w-100 py-2"
+                            disabled={loading}
+                          >
+                            {loading ? 'Processing...' : `Confirm & Pay $${total}`}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function VoucherModal({ booking, onClose }) {
+      return (
+        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
+          <div className="modal-dialog modal-md modal-dialog-centered">
+            <div className="modal-content overflow-hidden">
+              <div className="modal-header bg-dark text-white p-3">
+                <h5 className="modal-title serif-heading mb-0">
+                  <i className="bi bi-receipt me-2 text-warning"></i> Reservation Voucher & Receipt
+                </h5>
+                <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
+              </div>
+
+              <div className="modal-body p-4">
+                <div className="voucher-card text-center mb-3">
+                  <span className="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill fw-bold mb-2">
+                    ✓ Booking Confirmed & Paid
+                  </span>
+                  <h3 className="serif-heading mb-1">{booking.roomDetails ? booking.roomDetails.title : 'Luxury Suite'}</h3>
+                  <p className="text-muted small mb-3">
+                    Reference Code: <strong className="font-monospace text-primary fs-6">{booking.bookingReference}</strong>
+                  </p>
+
+                  <div className="text-start bg-light p-3 rounded mb-3 small">
+                    <div className="row mb-1">
+                      <div className="col-5 text-muted">Primary Guest:</div>
+                      <div className="col-7 fw-semibold text-dark">{booking.guestName}</div>
+                    </div>
+                    <div className="row mb-1">
+                      <div className="col-5 text-muted">Check-in:</div>
+                      <div className="col-7 fw-semibold text-dark">{booking.checkInDate} (From 3:00 PM)</div>
+                    </div>
+                    <div className="row mb-1">
+                      <div className="col-5 text-muted">Check-out:</div>
+                      <div className="col-7 fw-semibold text-dark">{booking.checkOutDate} (Until 11:00 AM)</div>
+                    </div>
+                    <div className="row mb-1">
+                      <div className="col-5 text-muted">Duration:</div>
+                      <div className="col-7 fw-semibold text-dark">{booking.nights} Night(s)</div>
+                    </div>
+                    <div className="row mb-1">
+                      <div className="col-5 text-muted">Payment:</div>
+                      <div className="col-7 text-dark">{booking.paymentMethod}</div>
+                    </div>
+                    <div className="row mb-1">
+                      <div className="col-5 text-muted">Transaction ID:</div>
+                      <div className="col-7 font-monospace text-muted">{booking.transactionId}</div>
+                    </div>
+                    <hr className="my-2" />
+                    <div className="row">
+                      <div className="col-5 fw-bold text-dark">Total Paid:</div>
+                      <div className="col-7 fw-bold text-success fs-6">${booking.totalAmount} USD</div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 border rounded bg-white d-inline-block shadow-sm">
+                    <i className="bi bi-qr-code text-dark" style={{ fontSize: '4rem' }}></i>
+                    <div className="text-muted" style={{ fontSize: '0.7rem' }}>Scan at Front Desk for Instant Check-in</div>
+                  </div>
+                </div>
+
+                <div className="d-flex gap-2">
+                  <button className="btn btn-outline-dark w-100" onClick={() => window.print()}>
+                    <i className="bi bi-printer me-2"></i> Print Voucher
+                  </button>
+                  <button className="btn btn-gold w-100" onClick={onClose}>
+                    Done
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
